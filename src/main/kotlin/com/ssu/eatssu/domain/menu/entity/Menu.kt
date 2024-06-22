@@ -1,0 +1,56 @@
+package com.ssu.eatssu.domain.menu.entity
+
+import com.ssu.eatssu.domain.restaurant.entity.Restaurant
+import jakarta.persistence.*
+
+@Entity
+class Menu(
+    var name: String,
+    var price: Int?,
+    @Enumerated(EnumType.STRING)
+    val restaurant: Restaurant,
+
+    @Enumerated(EnumType.STRING)
+    var menuCategory: MenuCategory?,
+
+    @Enumerated(EnumType.STRING)
+    var menuStatus: MenuStatus,
+
+    @Enumerated(EnumType.STRING)
+    var menuType: MenuType,
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_id")
+    val id: Long? = null,
+) {
+    companion object {
+        fun of(
+            name: String,
+            price: Int,
+            restaurantName: String,
+            categoryName: String,
+            menuType: String
+        ): Menu {
+            return Menu(
+                name,
+                price,
+                Restaurant.from(restaurantName),
+                MenuCategory.from(categoryName),
+                MenuStatus.AVAILABLE,
+                MenuType.from(menuType)
+            )
+        }
+
+        fun fixture(
+            name: String,
+            price: Int?,
+            restaurant: Restaurant = Restaurant.SNACK_CORNER,
+            menuCategory: MenuCategory? = MenuCategory.SNACK,
+            menuStatus: MenuStatus = MenuStatus.AVAILABLE,
+            menuType: MenuType = MenuType.ITEM
+        ): Menu {
+            return Menu(name, price, restaurant, menuCategory, menuStatus, menuType)
+        }
+    }
+}
