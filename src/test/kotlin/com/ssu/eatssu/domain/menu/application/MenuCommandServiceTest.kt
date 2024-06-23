@@ -7,9 +7,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import kotlin.test.Test
 
 @SpringBootTest
+@ActiveProfiles("test")
 class MenuCommandServiceTest @Autowired constructor(
     private val menuCommandService: MenuCommandService,
     private val menuRepository: MenuRepository
