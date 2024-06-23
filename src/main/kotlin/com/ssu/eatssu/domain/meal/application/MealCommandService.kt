@@ -14,7 +14,7 @@ class MealCommandService(
     private val mealRepository: MealRepository
 ) {
 
-    fun createMeal(request: CreateMealRequest) {
+    fun createMeal(request: CreateMealRequest) : Meal {
         val meal = Meal.of(
             date = request.date,
             restaurant = request.restaurant,
@@ -24,6 +24,6 @@ class MealCommandService(
             }.toList()
         )
 
-        mealRepository.save(meal)
+        return mealRepository.save(meal)
     }
 }

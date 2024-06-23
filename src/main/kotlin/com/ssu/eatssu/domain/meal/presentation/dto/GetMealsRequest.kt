@@ -8,7 +8,7 @@ import com.ssu.eatssu.global.enums.ErrorMessages
 import java.text.SimpleDateFormat
 import java.util.Date
 
-data class GetMealRequest(
+data class GetMealsRequest(
     val date: Date,
     val restaurant: Restaurant,
     val timePart: TimePart
@@ -20,7 +20,7 @@ data class GetMealRequest(
             @JsonProperty("date") date: String,
             @JsonProperty("restaurantName") restaurantName: String,
             @JsonProperty("timePart") timePart: String,
-        ): GetMealRequest {
+        ): GetMealsRequest {
             val formattedDate = SimpleDateFormat("yyyyMMdd").parse(date)
             val restaurant = Restaurant.from(restaurantName)
             val timePartEnum = TimePart.from(timePart)
@@ -29,7 +29,7 @@ data class GetMealRequest(
                 ErrorMessages.INVALID_RESTAURANT.message
             }
 
-            return GetMealRequest(
+            return GetMealsRequest(
                 date = formattedDate,
                 restaurant = restaurant,
                 timePart = timePartEnum,
