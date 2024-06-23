@@ -7,6 +7,8 @@ import jakarta.persistence.*
 class Menu(
     var name: String,
     var price: Int?,
+    var rating: Double? = 0.0,
+
     @Enumerated(EnumType.STRING)
     val restaurant: Restaurant,
 
@@ -25,7 +27,7 @@ class Menu(
     val id: Long? = null,
 ) {
     companion object {
-        fun of(
+        fun initial(
             name: String,
             price: Int,
             restaurantName: String,
@@ -35,6 +37,7 @@ class Menu(
             return Menu(
                 name,
                 price,
+                0.0,
                 Restaurant.from(restaurantName),
                 MenuCategory.from(categoryName),
                 MenuStatus.AVAILABLE,
@@ -45,12 +48,13 @@ class Menu(
         fun fixture(
             name: String,
             price: Int?,
+            rating: Double? = 0.0,
             restaurant: Restaurant = Restaurant.SNACK_CORNER,
             menuCategory: MenuCategory? = MenuCategory.SNACK,
             menuStatus: MenuStatus = MenuStatus.AVAILABLE,
             menuType: MenuType = MenuType.ITEM
         ): Menu {
-            return Menu(name, price, restaurant, menuCategory, menuStatus, menuType)
+            return Menu(name, price, rating, restaurant, menuCategory, menuStatus, menuType)
         }
     }
 }

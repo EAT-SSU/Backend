@@ -13,7 +13,7 @@ class MenuCommandService(
 ) {
     @Transactional
     fun saveMenu(request: CreateMenuRequest) {
-        val menu = Menu.of(
+        val menu = Menu.initial(
             request.name,
             request.price,
             request.restaurantName,

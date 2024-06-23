@@ -1,6 +1,8 @@
 package com.ssu.eatssu.domain.menu.presentation
 
-import com.ssu.eatssu.domain.menu.presentation.dto.GetMenusResponse
+import com.ssu.eatssu.domain.menu.application.MenuQueryService
+import com.ssu.eatssu.domain.menu.presentation.dto.MenuCategoryListResponse
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -8,9 +10,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/menus")
-class MenuController : MenuControllerDocs {
+class MenuController(
+    private val menuQueryService: MenuQueryService
+) : MenuControllerDocs {
+
     @GetMapping
-    override fun getMenus(restaurant: String): ResponseEntity<GetMenusResponse> {
-        return ResponseEntity.ok(GetMenusResponse("푸드코트", listOf()))
+    override fun getMenus(restaurantName: String): ResponseEntity<MenuCategoryListResponse> {
+        return ResponseEntity(menuQueryService.getMenusGroupedByCategory(restaurantName), HttpStatus.OK)
     }
 }
