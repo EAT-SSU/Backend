@@ -1,13 +1,18 @@
 package com.ssu.eatssu.domain.menu.entity
 
-import com.ssu.eatssu.domain.meal.entity.MealItem
+import com.ssu.eatssu.domain.meal.entity.Meal
 import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import jakarta.persistence.*
 
 @Entity
 class Menu(
+    @Column(nullable = false, unique = true, name = "menu_name")
     var name: String,
+
+    @Column(name = "menu_price")
     var price: Int?,
+
+    @Column(name = "menu_rating")
     var rating: Double? = 0.0,
 
     @Enumerated(EnumType.STRING)
@@ -22,10 +27,11 @@ class Menu(
     @Enumerated(EnumType.STRING)
     var menuType: MenuType,
 
-    // todo : Reviews 추가
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "meal_id")
+    var meal: Meal? = null,
 
-    @OneToMany(mappedBy = "menu", cascade = [CascadeType.ALL])
-    val mealItems: MutableList<MealItem> = mutableListOf(),
+    // todo : Reviews 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +59,7 @@ class Menu(
 
         fun fixture(
             name: String,
-            price: Int?,
+            price: Int? = 5000,
             rating: Double? = 0.0,
             restaurant: Restaurant = Restaurant.SNACK_CORNER,
             menuCategory: MenuCategory? = MenuCategory.SNACK,

@@ -19,6 +19,11 @@ class MenuQueryService(
             ?: throw NotExistsException(ErrorMessages.NOT_FOUND_MENU.message)
     }
 
+    fun getMenu(menuName: String): Menu {
+        return menuQuerydslRepository.find(menuName)
+            ?: throw NotExistsException(ErrorMessages.NOT_FOUND_MENU.message)
+    }
+
     // todo: Restaurant을 Enum으로 변경할 수도 있습니다.
     fun getMenusGroupedByCategory(restaurantName: String): MenuCategoryListResponse {
         return menuQuerydslRepository.findAllMenusGroupedByCategory(restaurantName)
