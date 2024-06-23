@@ -1,7 +1,7 @@
 package com.ssu.eatssu.domain.menu.entity
 
 enum class MenuStatus(
-    description: String
+    val description: String
 ) {
     AVAILABLE("판매중"),
     DISCONTINUED("단종"),

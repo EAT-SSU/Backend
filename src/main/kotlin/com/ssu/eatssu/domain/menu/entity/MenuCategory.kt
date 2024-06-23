@@ -1,12 +1,14 @@
 package com.ssu.eatssu.domain.menu.entity
 
+import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import com.ssu.eatssu.global.enums.ErrorMessages
 import com.ssu.eatssu.global.exception.NotExistsException
 
 enum class MenuCategory(
-    description: String
+    val description: String,
 ) {
-    SALAD_FOOD_COURT("샐러드"),
+
+    SALAD("샐러드"),
     FUSION("퓨전"),
     SOUP("국밥"),
     SNACK("분식"),
