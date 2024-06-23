@@ -41,4 +41,10 @@ class MealController(
             HttpStatus.OK
         )
     }
+
+    @DeleteMapping
+    override fun deleteMeal(@RequestParam(name = "mealId") mealId: Long): ResponseEntity<Void> {
+        mealCommandService.deleteMeal(mealId)
+        return ResponseEntity(HttpStatus.OK)
+    }
 }

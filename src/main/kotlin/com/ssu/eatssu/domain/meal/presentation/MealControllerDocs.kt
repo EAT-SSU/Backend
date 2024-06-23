@@ -79,4 +79,23 @@ interface MealControllerDocs {
     fun getMenusInMeal(
         mealId: Long
     ): ResponseEntity<MenusInMealResponse>
+
+    @Operation(
+        summary = "식단 삭제", description = """
+            식단을 삭제하는 API 입니다.<br><br>
+            식단 ID를 통해 특정 식단을 삭제합니다.
+        """
+    )
+    @ApiResponses(
+        value = [ApiResponse(responseCode = "200", description = "식단 내 메뉴 조회 성공"), ApiResponse(
+            responseCode = "400",
+            description = "잘못된 식단 ID",
+        ), ApiResponse(
+            responseCode = "404",
+            description = "존재 하지 않는 식단",
+        )]
+    )
+    fun deleteMeal(
+        mealId: Long
+    ): ResponseEntity<Void>
 }
