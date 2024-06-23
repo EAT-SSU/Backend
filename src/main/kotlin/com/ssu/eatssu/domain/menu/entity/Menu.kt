@@ -1,5 +1,6 @@
 package com.ssu.eatssu.domain.menu.entity
 
+import com.ssu.eatssu.domain.meal.entity.MealItem
 import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import jakarta.persistence.*
 
@@ -20,6 +21,11 @@ class Menu(
 
     @Enumerated(EnumType.STRING)
     var menuType: MenuType,
+
+    // todo : Reviews 추가
+
+    @OneToMany(mappedBy = "menu", cascade = [CascadeType.ALL])
+    val mealItems: MutableList<MealItem> = mutableListOf(),
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
