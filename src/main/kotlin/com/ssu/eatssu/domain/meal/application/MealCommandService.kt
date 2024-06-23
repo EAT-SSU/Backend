@@ -16,10 +16,10 @@ class MealCommandService(
 
     fun createMeal(request: CreateMealRequest) {
         val meal = Meal.of(
-            request.date,
-            request.restaurant,
-            request.timePart,
-            request.menus.stream().map {
+            date = request.date,
+            restaurant = request.restaurant,
+            timePart = request.timePart,
+            menus = request.menus.stream().map {
                 menuQueryService.getMenu(it)
             }.toList()
         )

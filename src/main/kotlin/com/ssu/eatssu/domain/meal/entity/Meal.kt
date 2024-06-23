@@ -10,10 +10,11 @@ import java.util.Date
 @Entity
 class Meal(
     val price: Int?,
+    var rating: Double? = 0.0,
 
     @DateTimeFormat(pattern = "yyyyMMdd")
     @Temporal(TemporalType.DATE)
-    val date: LocalDate,
+    val date: Date,
 
     @Enumerated(EnumType.STRING)
     val restaurant: Restaurant,
@@ -31,13 +32,15 @@ class Meal(
 ) {
     companion object {
         fun of(
-            date: LocalDate,
+            date: Date,
+            rating: Double? = 0.0,
             restaurant: Restaurant,
             timePart: TimePart,
             menus: List<Menu>
         ): Meal {
             return Meal(
                 restaurant.price,
+                rating,
                 date,
                 restaurant,
                 timePart,
