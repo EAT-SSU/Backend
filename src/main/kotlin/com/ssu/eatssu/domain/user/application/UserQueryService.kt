@@ -15,7 +15,7 @@ class UserQueryService (
     private val userQueryDslRepository: UserQueryDslRepository
 ){
 
-    fun getUserMypage(userId: Long) : UserMypageResponse{
+    fun getMyPage(userId: Long) : UserMypageResponse{
         val user = userRepository.findById(userId).orElseThrow {
             NotExistsException(ErrorMessages.NOT_EXIST_USER.message)
         }

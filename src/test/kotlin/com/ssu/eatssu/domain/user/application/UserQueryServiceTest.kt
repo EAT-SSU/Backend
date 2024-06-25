@@ -21,7 +21,7 @@ class UserQueryServiceTest @Autowired constructor(
         val user = userRepository.save(User.fixture())
 
         // when
-        val response = userQueryService.getUserMypage(user.id!!)
+        val response = userQueryService.getMyPage(user.id!!)
 
         // then
         assertEquals(user.nickname, response.nickname)

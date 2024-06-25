@@ -23,7 +23,7 @@ class UserCommandService(
         provider: OAuthProvider,
         providerId: String
     ): User {
-        userValidator.verifyDuplicateEmail(email)
+        userValidator.verifyDuplicatedEmail(email)
 
         val credentials = encodeCredentials(provider, providerId)
         val user = User.initial(email, provider, providerId, credentials)
