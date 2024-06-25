@@ -25,7 +25,7 @@ class MenuQueryService(
     }
 
     // todo: Restaurant을 Enum으로 변경할 수도 있습니다.
-    fun getMenusGroupedByCategory(restaurantName: String): MenuCategoryListResponse {
-        return menuQuerydslRepository.findAllMenusGroupedByCategory(restaurantName)
+    fun getMenusGroupedByCategory(restaurant: Restaurant): MenuCategoryListResponse {
+        return menuQuerydslRepository.findAllMenusGroupedByCategory(restaurant.name)
     }
 }

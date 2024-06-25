@@ -3,11 +3,14 @@ package com.ssu.eatssu.domain.menu.presentation
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ssu.eatssu.domain.menu.application.MenuQueryService
 import com.ssu.eatssu.domain.menu.presentation.dto.MenuCategoryListResponse
+import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import org.junit.jupiter.api.DisplayName
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
@@ -18,8 +21,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.util.LinkedMultiValueMap
 import kotlin.test.Test
 
-@AutoConfigureWebMvc
-@WebMvcTest(MenuController::class)
+@AutoConfigureMockMvc
+@SpringBootTest
 @ActiveProfiles("test")
 class MenuControllerTest @Autowired constructor(
     var mockMvc: MockMvc,
@@ -35,15 +38,16 @@ class MenuControllerTest @Autowired constructor(
         val url = "/api/menus"
 
         val queryParams = LinkedMultiValueMap<String, String>()
-        queryParams.add("restaurantName", "FOOD_COURT")
+        queryParams.add("restaurant", Restaurant.FOOD_COURT.name)
 
-        whenever(menuQueryService.getMenusGroupedByCategory("FOOD_COURT"))
+        whenever(menuQueryService.getMenusGroupedByCategory(Restaurant.FOOD_COURT))
             .thenReturn(MenuCategoryListResponse(listOf()))
 
         val requestActions = mockMvc.perform(
             MockMvcRequestBuilders.get(url)
                 .queryParams(queryParams)
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer token")
         )
 
         requestActions

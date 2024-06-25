@@ -45,7 +45,7 @@ class MenuQueryServiceTest @Autowired constructor(
         )
 
         // when
-        val getMenusResponse = menuQueryService.getMenusGroupedByCategory(restaurantName)
+        val getMenusResponse = menuQueryService.getMenusGroupedByCategory(restaurant = Restaurant.FOOD_COURT)
 
         // then
         assertThat(getMenusResponse.categories.size).isEqualTo(3)
