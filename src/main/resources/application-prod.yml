@@ -17,9 +17,9 @@ spring:
         show_sql: true # SQL 출력
 
 jwt:
-  secret-key: 58244814c55d300622bf0c14b398221f783ed70440df53f001e4366683b9ee26a532652096d0acce7c8b01929dd0b49305442f3f18039e30781898befdc5696b
-  access-token-expiration: 86400
-  refresh-token-expiration: 259200
+  secretKey: 58244814c55d300622bf0c14b398221f783ed70440df53f001e4366683b9ee26a532652096d0acce7c8b01929dd0b49305442f3f18039e30781898befdc5696b
+  token-validity-in-seconds: 86400
+  refresh-token-validity-in-seconds: 259200
 
 springdoc:
   swagger-ui:
