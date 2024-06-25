@@ -34,6 +34,14 @@ class User(
     val id: Long? = null,
 ) {
 
+    fun changeNickname(newNickname: String) {
+        this.nickname = newNickname
+    }
+
+    fun changeEmail(newEmail: String) {
+        this.email = newEmail
+    }
+
     companion object {
         fun initial(
             email: String,
@@ -50,13 +58,25 @@ class User(
                 role = Role.ROLE_USER
             )
         }
-    }
 
-    fun changeNickname(newNickname: String) {
-        this.nickname = newNickname
-    }
-
-    fun changeEmail(newEmail: String) {
-        this.email = newEmail
+        fun fixture(
+            email: String = "test@gmail.com",
+            nickname: String = "tester",
+            provider: OAuthProvider = OAuthProvider.EATSSU,
+            providerId: String = "1234",
+            credentials: String = "1234",
+            status: UserStatus = UserStatus.ACTIVE,
+            role: Role = Role.ROLE_USER,
+        ): User {
+            return User(
+                email = email,
+                nickname = nickname,
+                provider = provider,
+                providerId = providerId,
+                credentials = credentials,
+                status = status,
+                role = role,
+            )
+        }
     }
 }
