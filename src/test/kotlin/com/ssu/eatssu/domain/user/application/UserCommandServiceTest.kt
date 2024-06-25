@@ -76,4 +76,17 @@ class UserCommandServiceTest @Autowired constructor(
                 assertEquals(newEmail, this.get().email)
             }
     }
+
+    @Test
+    @DisplayName("유저를 삭제한다")
+    fun deleteUserTest() {
+        // given
+        val user = userRepository.save(User.fixture())
+
+        // when
+        userCommandService.deleteUser(user.id!!)
+
+        // then
+        assertFalse(userRepository.findById(user.id!!).isPresent)
+    }
 }
