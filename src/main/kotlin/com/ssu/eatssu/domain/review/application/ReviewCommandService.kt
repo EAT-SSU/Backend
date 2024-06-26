@@ -35,16 +35,20 @@ class ReviewCommandService(
             tasteRating = request.tasteRating
         )
 
-        processImages(review, request.images)
+        uplodeImages(review, request.images)
         user.addReview(review)
         menu.addReview(review)
 
         return CreateReviewResponse.of(review)
     }
 
-    private fun processImages(review: Review, images: List<MultipartFile>) {
+    fun uploadImage(image: MultipartFile): String {
+        return reviewImageProcessor.processImage(image)
+    }
+
+    private fun uplodeImages(review: Review, images: List<MultipartFile>) {
         for (image in images) {
-            val imageUrl = reviewImageProcessor.processImage(review, image)
+            val imageUrl = reviewImageProcessor.processImage(image)
             review.addImageUrl(imageUrl)
         }
     }

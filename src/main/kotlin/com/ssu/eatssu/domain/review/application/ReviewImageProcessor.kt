@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile
 class ReviewImageProcessor(
     val s3Uploader: S3Uploader
 ) {
-    fun processImage(review: Review, image: MultipartFile): String {
+    fun processImage(image: MultipartFile): String {
         return s3Uploader.upload(image, "reviewImg")
     }
 }
