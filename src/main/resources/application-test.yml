@@ -2,6 +2,9 @@ spring:
   application:
     name: eat-ssu-kotlin
 
+    config:
+      import: "optional:classpath:secrets.yml"
+
   datasource:
     driver-class-name: org.h2.Driver
     username: sa
@@ -21,6 +24,21 @@ jwt:
   secretKey: 58244814c55d300622bf0c14b398221f783ed70440df53f001e4366683b9ee26a532652096d0acce7c8b01929dd0b49305442f3f18039e30781898befdc5696b
   token-validity-in-seconds: 86400
   refresh-token-validity-in-seconds: 259200
+
+slack:
+  token: ${slack.token}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${cloud.aws.credentials.accessKey}
+      secretKey: ${cloud.aws.credentials.secretKey}
+    s3:
+      bucket: ${cloud.aws.s3.bucket}
+    region:
+      static: ${cloud.aws.region.static}
+    stack:
+      auto: ${cloud.aws.stack.auto}
 
 springdoc:
   swagger-ui:
