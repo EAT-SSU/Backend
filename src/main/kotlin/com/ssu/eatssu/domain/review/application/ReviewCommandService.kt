@@ -44,7 +44,7 @@ class ReviewCommandService(
 
     private fun processImages(review: Review, images: List<MultipartFile>) {
         for (image in images) {
-            val imageUrl = reviewImageProcessor.processImage(review, images)
+            val imageUrl = reviewImageProcessor.processImage(review, image)
             review.addImageUrl(imageUrl)
         }
     }
