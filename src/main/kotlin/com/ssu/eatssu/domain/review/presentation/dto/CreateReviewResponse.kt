@@ -5,7 +5,7 @@ import com.ssu.eatssu.domain.review.entity.Review
 data class CreateReviewResponse(
     val reviewId: Long,
     val content: String,
-    val imageUrl: String,
+    val imageUrl: List<String>,
     val mainRating: Int,
     val amountRating: Int,
     val tasteRating: Int,
@@ -17,7 +17,7 @@ data class CreateReviewResponse(
             return CreateReviewResponse(
                 reviewId = review.id,
                 content = review.content,
-                imageUrl = review.imageUrl,
+                imageUrl = review.imageUrls,
                 mainRating = review.mainRating,
                 amountRating = review.amountRating,
                 tasteRating = review.tasteRating,
