@@ -45,6 +45,15 @@ dependencies {
     // Webflux
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    // Slack
+    implementation 'com.slack.api:bolt:1.35.0'
+    implementation 'com.slack.api:bolt-servlet:1.35.0'
+    implementation 'com.slack.api:bolt-jetty:1.35.0'
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
+
+    // AWS S3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
     // JWT
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'

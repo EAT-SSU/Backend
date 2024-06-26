@@ -2,6 +2,8 @@ package com.ssu.eatssu.domain.menu.entity
 
 import com.ssu.eatssu.domain.meal.entity.Meal
 import com.ssu.eatssu.domain.restaurant.entity.Restaurant
+import com.ssu.eatssu.domain.review.entity.Review
+import com.ssu.eatssu.global.entity.BaseEntity
 import jakarta.persistence.*
 
 @Entity
@@ -27,6 +29,9 @@ class Menu(
     @Enumerated(EnumType.STRING)
     var menuType: MenuType,
 
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
+    val reviews: List<Review> = mutableListOf(),
+
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "meal_id")
     var meal: Meal? = null,
@@ -37,7 +42,11 @@ class Menu(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
     val id: Long? = null,
-) {
+) : BaseEntity() {
+    fun addReview(review: Review) {
+        this.reviews.toMutableList().add(review)
+    }
+
     companion object {
         fun initial(
             name: String,

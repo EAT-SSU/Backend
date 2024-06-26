@@ -1,6 +1,10 @@
 package com.ssu.eatssu.domain.user.entity
 
+import com.ssu.eatssu.domain.inquiry.entity.Inquiry
 import com.ssu.eatssu.domain.oauth.entity.OAuthProvider
+import com.ssu.eatssu.domain.report.entity.Report
+import com.ssu.eatssu.domain.review.entity.Review
+import com.ssu.eatssu.global.entity.BaseEntity
 import jakarta.persistence.*
 
 @Entity
@@ -15,6 +19,15 @@ class User(
     val providerId: String,
 
     val credentials: String,
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
+    val reviews: List<Review> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
+    val reports: List<Report> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
+    val inquiries: List<Inquiry> = mutableListOf(),
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_status")
@@ -32,7 +45,7 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     val id: Long? = null,
-) {
+) : BaseEntity() {
 
     fun changeNickname(newNickname: String) {
         this.nickname = newNickname
@@ -40,6 +53,10 @@ class User(
 
     fun changeEmail(newEmail: String) {
         this.email = newEmail
+    }
+
+    fun addReview(review: Review) {
+        this.reviews.toMutableList().add(review)
     }
 
     companion object {
