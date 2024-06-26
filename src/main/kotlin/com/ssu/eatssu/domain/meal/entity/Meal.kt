@@ -2,6 +2,7 @@ package com.ssu.eatssu.domain.meal.entity
 
 import com.ssu.eatssu.domain.menu.entity.Menu
 import com.ssu.eatssu.domain.restaurant.entity.Restaurant
+import com.ssu.eatssu.global.entity.BaseEntity
 import jakarta.persistence.*
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
@@ -29,7 +30,7 @@ class Meal(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meal_id")
     val id: Long? = null
-) {
+) : BaseEntity() {
     companion object {
         fun of(
             date: Date,
