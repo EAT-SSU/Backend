@@ -6,16 +6,16 @@ import jakarta.persistence.MappedSuperclass
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @EntityListeners(AuditingEntityListener::class)
 @MappedSuperclass
-class BaseEntity(
+open class BaseEntity(
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: LocalDate,
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    val updatedAt: LocalDate
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 )
