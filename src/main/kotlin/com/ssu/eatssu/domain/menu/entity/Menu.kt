@@ -29,7 +29,7 @@ class Menu(
     @Enumerated(EnumType.STRING)
     var menuType: MenuType,
 
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "menu", cascade = [CascadeType.ALL])
     val reviews: List<Review> = mutableListOf(),
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
