@@ -25,7 +25,7 @@ class MenuQueryServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("카테고리 별 메뉴 리스트 조회 테스트")
+    @DisplayName("카테고리 별 메뉴 리스트 조회한다")
     fun getMenusGroupedByCategoryTest() {
         // given
         val restaurantName = "FOOD_COURT"
@@ -55,5 +55,30 @@ class MenuQueryServiceTest @Autowired constructor(
         assertThat(getMenusResponse.categories[1].menus.size).isEqualTo(3)
         assertThat(getMenusResponse.categories[2].category).isEqualTo("SNACK")
         assertThat(getMenusResponse.categories[2].menus.size).isEqualTo(2)
+    }
+
+    @Test
+    @DisplayName("캐싱 테스트")
+    fun testCache(){
+        val restaurantName = "FOOD_COURT"
+        menuRepository.saveAll(
+            listOf(
+                Menu.fixture("팟타이", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.FUSION),
+                Menu.fixture("쇠고기 쌀국수", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.FUSION),
+                Menu.fixture("삼선 짬뽕", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.FUSION),
+                Menu.fixture("짬뽕 밥", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.FUSION),
+                Menu.fixture("치킨 찹 스테이크 덮밥", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.FUSION),
+                Menu.fixture("순대 국밥", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.SOUP),
+                Menu.fixture("얼큰 순대국", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.SOUP),
+                Menu.fixture("고기 국밥", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.SOUP),
+                Menu.fixture("떡볶이", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.SNACK),
+                Menu.fixture("순대", 7000, restaurant = Restaurant.FOOD_COURT, menuCategory = MenuCategory.SNACK),
+            )
+        )
+
+        // when
+        menuQueryService.getMenusGroupedByCategory(restaurant = Restaurant.FOOD_COURT)
+        menuQueryService.getMenusGroupedByCategory(restaurant = Restaurant.FOOD_COURT)
+        menuQueryService.getMenusGroupedByCategory(restaurant = Restaurant.FOOD_COURT)
     }
 }

@@ -6,6 +6,7 @@ import com.ssu.eatssu.domain.menu.presentation.dto.MenuCategoryListResponse
 import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import com.ssu.eatssu.global.enums.ErrorMessages
 import com.ssu.eatssu.global.exception.NotExistsException
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -24,7 +25,7 @@ class MenuQueryService(
             ?: throw NotExistsException(ErrorMessages.NOT_FOUND_MENU.message)
     }
 
-    // todo: Restaurant을 Enum으로 변경할 수도 있습니다.
+    @Cacheable(value = ["menus"], key = "#restaurant.name")
     fun getMenusGroupedByCategory(restaurant: Restaurant): MenuCategoryListResponse {
         return menuQuerydslRepository.findAllMenusGroupedByCategory(restaurant.name)
     }

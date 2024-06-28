@@ -32,6 +32,16 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
+    // Cache
+    implementation "org.springframework.boot:spring-boot-starter-cache"
+    implementation "org.ehcache:ehcache"
+    implementation "javax.cache:cache-api"
+
+    // JAXB
+    implementation 'com.sun.xml.bind:jaxb-core:2.3.0.1'
+    implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
     // DevTools
 //    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -91,6 +101,16 @@ dependencies {
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll '-Xjsr305=strict'
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/main/resources'
+            include '**/*.xml'
+            include '**/*.yml'
+        }
     }
 }
 
