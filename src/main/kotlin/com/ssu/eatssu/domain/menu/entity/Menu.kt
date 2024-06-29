@@ -1,6 +1,5 @@
 package com.ssu.eatssu.domain.menu.entity
 
-import com.ssu.eatssu.domain.meal.entity.Meal
 import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import com.ssu.eatssu.domain.review.entity.Review
 import com.ssu.eatssu.global.entity.BaseEntity
@@ -8,7 +7,7 @@ import jakarta.persistence.*
 
 @Entity
 class Menu(
-    @Column(nullable = false, unique = true, name = "menu_name")
+    @Column(nullable = false, name = "menu_name")
     var name: String,
 
     @Column(name = "menu_price")
@@ -31,12 +30,6 @@ class Menu(
 
     @OneToMany(mappedBy = "menu", cascade = [CascadeType.ALL])
     val reviews: List<Review> = mutableListOf(),
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "meal_id")
-    var meal: Meal? = null,
-
-    // todo : Reviews 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

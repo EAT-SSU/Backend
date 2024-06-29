@@ -19,8 +19,8 @@ data class GetMealReviewResponse(
             ratingCountMap: Map<Int, Long?>
         ): GetMealReviewResponse {
             return GetMealReviewResponse(
-                meal.menus.map { it.name },
-                meal.menus.flatMap { it.reviews }.count(),
+                meal.menuNames,
+                meal.mealMenus.flatMap { it.menu.reviews }.count(),
                 averageMainRating,
                 averageAmountRating,
                 averageTasteRating,

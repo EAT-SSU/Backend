@@ -1,5 +1,7 @@
 package com.ssu.eatssu.domain.menu.presentation.dto
 
+import com.ssu.eatssu.domain.menu.entity.MenuStatus
+
 data class MenuCategoryListResponse(val categories: List<CategoryWithMenusResponse>) {
     companion object {
         fun of(categories: List<CategoryWithMenusResponse>): MenuCategoryListResponse {
@@ -16,4 +18,4 @@ data class CategoryWithMenusResponse(val category: String, val menus: List<MenuD
     }
 }
 
-data class MenuDetailResponse(val id: Long, val name: String, val price: Int, val rating: Double)
+data class MenuDetailResponse(val id: Long, val name: String, val price: Int, val rating: Double, val menuStatus: MenuStatus)

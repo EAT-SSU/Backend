@@ -75,8 +75,6 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
 
-
-        http
             .addFilterBefore(
                 JwtAuthenticationFilter(
                     jwtTokenProvider,

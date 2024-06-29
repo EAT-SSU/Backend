@@ -23,8 +23,11 @@ class Meal(
     @Enumerated(EnumType.STRING)
     val timePart: TimePart,
 
+    @ElementCollection
+    val menuNames: List<String> = mutableListOf(),
+
     @OneToMany(mappedBy = "meal", cascade = [CascadeType.ALL])
-    val menus: MutableList<Menu> = mutableListOf(),
+    val mealMenus: MutableList<MealMenu> = mutableListOf(),
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,16 +40,22 @@ class Meal(
             rating: Double? = 0.0,
             restaurant: Restaurant,
             timePart: TimePart,
+            menuNames: List<String>,
             menus: List<Menu>
         ): Meal {
-            return Meal(
+            val meal = Meal(
                 restaurant.price,
                 rating,
                 date,
                 restaurant,
                 timePart,
-                menus.toMutableList()
+                menuNames,
+                mutableListOf()
             )
+            menus.forEach { menu ->
+                meal.mealMenus.add(MealMenu(meal, menu))
+            }
+            return meal
         }
     }
 }

@@ -46,7 +46,8 @@ class MenuQuerydslRepository(
                             id = it.id!!,
                             name = it.name,
                             price = it.price ?: 0,
-                            rating = it.rating ?: 0.0
+                            rating = it.rating ?: 0.0,
+                            menuStatus = it.menuStatus
                         )
                     }
                 )

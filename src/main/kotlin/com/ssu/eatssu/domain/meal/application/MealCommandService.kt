@@ -19,6 +19,7 @@ class MealCommandService(
             date = request.date,
             restaurant = request.restaurant,
             timePart = request.timePart,
+            menuNames = request.menus,
             menus = request.menus.stream().map {
                 menuQueryService.getMenu(it)
             }.toList()

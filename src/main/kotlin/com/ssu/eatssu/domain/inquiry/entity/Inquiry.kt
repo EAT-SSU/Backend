@@ -5,6 +5,7 @@ import com.ssu.eatssu.global.entity.BaseEntity
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "inquiry")
 class Inquiry(
     @Column(name = "inquiry_title")
     val title: String,

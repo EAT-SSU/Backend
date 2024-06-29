@@ -13,7 +13,12 @@ import java.util.Date
 class MealQueryDslRepository(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun find(id: Long? = null, date: Date? = null, restaurant: Restaurant? = null, timePart: TimePart? = null): List<Meal>? {
+    fun find(
+        id: Long? = null,
+        date: Date? = null,
+        restaurant: Restaurant? = null,
+        timePart: TimePart? = null
+    ): List<Meal>? {
         val builder = BooleanBuilder()
 
         id?.let {
@@ -32,5 +37,4 @@ class MealQueryDslRepository(
             .where(builder)
             .fetch()
     }
-
 }

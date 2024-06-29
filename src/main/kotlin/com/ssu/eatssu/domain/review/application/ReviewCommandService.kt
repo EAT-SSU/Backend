@@ -43,7 +43,10 @@ class ReviewCommandService(
     }
 
     fun uploadImage(image: MultipartFile): String {
-        return reviewImageProcessor.processImage(image)
+        var imageUrl: String = ""
+        if (!image.isEmpty)
+            imageUrl = reviewImageProcessor.processImage(image)
+        return imageUrl
     }
 
     private fun uplodeImages(review: Review, images: List<MultipartFile>) {

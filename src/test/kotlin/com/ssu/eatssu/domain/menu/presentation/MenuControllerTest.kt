@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -21,8 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.util.LinkedMultiValueMap
 import kotlin.test.Test
 
-@AutoConfigureMockMvc
-@SpringBootTest
+@WebMvcTest(MenuController::class)
 @ActiveProfiles("test")
 class MenuControllerTest @Autowired constructor(
     var mockMvc: MockMvc,
@@ -34,6 +34,7 @@ class MenuControllerTest @Autowired constructor(
 
     @Test
     @DisplayName("메뉴 카테고리 별 조회 테스트")
+    @WithMockUser
     fun getMenusTest() {
         val url = "/api/menus"
 
@@ -55,5 +56,4 @@ class MenuControllerTest @Autowired constructor(
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
     }
-
 }

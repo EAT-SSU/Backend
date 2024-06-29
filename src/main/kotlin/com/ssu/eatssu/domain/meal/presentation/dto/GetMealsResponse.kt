@@ -27,7 +27,7 @@ data class MealDetailResponse(
                 mealId = meal.id!!,
                 price = meal.price!!,
                 rating = meal.rating,
-                menus = meal.menus.map(MenuIdNameResponse::of)
+                menus = meal.mealMenus.map { MenuIdNameResponse.of(it.menu) }
             )
         }
     }
