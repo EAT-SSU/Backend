@@ -1,5 +1,6 @@
 package com.ssu.eatssu.domain.menu.entity
 
+import com.ssu.eatssu.domain.meal.entity.MealMenu
 import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import com.ssu.eatssu.domain.review.entity.Review
 import com.ssu.eatssu.global.entity.BaseEntity
@@ -31,6 +32,9 @@ class Menu(
     @OneToMany(mappedBy = "menu", cascade = [CascadeType.ALL])
     val reviews: List<Review> = mutableListOf(),
 
+    @OneToMany(mappedBy = "menu", cascade = [CascadeType.ALL])
+    val mealMenu: List<MealMenu> = mutableListOf(),
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
@@ -38,6 +42,14 @@ class Menu(
 ) : BaseEntity() {
     fun addReview(review: Review) {
         this.reviews.toMutableList().add(review)
+    }
+
+    fun addRating(mainRating: Int) {
+        this.rating?.plus(mainRating)
+    }
+
+    fun calculateRating(): Double {
+        return this.rating?.div(reviews.size) ?: 0.0
     }
 
     companion object {

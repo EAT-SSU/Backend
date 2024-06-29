@@ -16,5 +16,6 @@ data class CreateReviewRequest(
     val tasteRating: Int,
     @Schema(description = "메뉴 아이디", example = "1L")
     val menuId: Long,
+    @Schema(description = "이미지 파일", example = "image.jpg")
     val images: List<MultipartFile>
 )

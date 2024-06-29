@@ -101,7 +101,7 @@ class ReviewController(
     ): ResponseEntity<CreateReviewResponse> {
         return ResponseEntity(
             reviewCommandService.createReview(
-                customUserDetails!!,
+                customUserDetails!!.getId(),
                 request!!,
             ),
             HttpStatus.OK
@@ -125,7 +125,7 @@ class ReviewController(
     ): ResponseEntity<*> {
         return ResponseEntity(
             reviewCommandService.updateReview(
-                customUserDetails!!,
+                customUserDetails!!.getId(),
                 reviewId!!,
                 request!!
             ),
@@ -139,7 +139,7 @@ class ReviewController(
         @AuthenticationPrincipal customUserDetails: CustomUserDetails?
     ): ResponseEntity<Void> {
         reviewCommandService.deleteReview(
-            customUserDetails!!,
+            customUserDetails!!.getId(),
             reviewId!!
         )
         return ResponseEntity(HttpStatus.OK)

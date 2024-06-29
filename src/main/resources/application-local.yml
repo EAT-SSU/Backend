@@ -10,10 +10,10 @@ spring:
       config: "classpath:ehcache.xml"
 
   datasource:
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DATABASE_URL}/test
+    username: admin
+    password: ssu2023!
 
   jpa:
     hibernate:

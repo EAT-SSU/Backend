@@ -39,10 +39,10 @@ class MealCommandServiceTest @Autowired constructor(
 
         // then
         assertThat(mealRepository.findAll()).hasSize(1)
-        assertThat(mealRepository.findAll().get(0).menus).hasSize(3)
-        assertThat(mealRepository.findAll().get(0).menus[0].name).isEqualTo("돈가스")
-        assertThat(mealRepository.findAll().get(0).menus[1].name).isEqualTo("김치 볶음밥")
-        assertThat(mealRepository.findAll().get(0).menus[2].name).isEqualTo("깍두기")
+        assertThat(mealRepository.findAll().get(0).menuNames).hasSize(3)
+        assertThat(mealRepository.findAll().get(0).menuNames[0]).isEqualTo("돈가스")
+        assertThat(mealRepository.findAll().get(0).menuNames[1]).isEqualTo("김치 볶음밥")
+        assertThat(mealRepository.findAll().get(0).menuNames[2]).isEqualTo("깍두기")
     }
 
     @Test

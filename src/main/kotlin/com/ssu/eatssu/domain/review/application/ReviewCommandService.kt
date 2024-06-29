@@ -2,12 +2,14 @@ package com.ssu.eatssu.domain.review.application
 
 import com.ssu.eatssu.domain.menu.persistence.MenuRepository
 import com.ssu.eatssu.domain.review.entity.Review
+import com.ssu.eatssu.domain.review.event.CreateReviewEvent
 import com.ssu.eatssu.domain.review.persistence.ReviewRepository
 import com.ssu.eatssu.domain.review.presentation.dto.CreateReviewRequest
 import com.ssu.eatssu.domain.review.presentation.dto.CreateReviewResponse
 import com.ssu.eatssu.domain.review.presentation.dto.UpdateReviewRequest
 import com.ssu.eatssu.domain.user.persistence.UserRepository
 import com.ssu.eatssu.global.auth.user.entity.CustomUserDetails
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -18,13 +20,14 @@ class ReviewCommandService(
     private val reviewRepository: ReviewRepository,
     private val reviewImageProcessor: ReviewImageProcessor,
     private val userRepository: UserRepository,
-    private val menuRepository: MenuRepository
+    private val menuRepository: MenuRepository,
+    private val applicationEventPublisher: ApplicationEventPublisher
 ) {
     fun createReview(
-        userDetails: CustomUserDetails,
+        userId: Long,
         request: CreateReviewRequest
     ): CreateReviewResponse {
-        val user = userRepository.findById(userDetails.getId()).get()
+        val user = userRepository.findById(userId).get()
         val menu = menuRepository.findById(request.menuId).get()
         val review = Review.of(
             user = user,
@@ -38,6 +41,8 @@ class ReviewCommandService(
         uplodeImages(review, request.images)
         user.addReview(review)
         menu.addReview(review)
+
+        applicationEventPublisher.publishEvent(CreateReviewEvent(this, menu.id!!, request.mainRating))
 
         return CreateReviewResponse.of(review)
     }
@@ -57,11 +62,11 @@ class ReviewCommandService(
     }
 
     fun updateReview(
-        userDetails: CustomUserDetails,
+        userId: Long,
         reviewId: Long,
         request: UpdateReviewRequest
     ) {
-        val user = userRepository.findById(userDetails.getId()).get()
+        val user = userRepository.findById(userId).get()
         val review = reviewRepository.findById(reviewId).get()
 
         review.isWrittenBy(user)
@@ -76,10 +81,10 @@ class ReviewCommandService(
     }
 
     fun deleteReview(
-        userDetails: CustomUserDetails,
+        userId: Long,
         reviewId: Long
     ) {
-        val user = userRepository.findById(userDetails.getId()).get()
+        val user = userRepository.findById(userId).get()
         val review = reviewRepository.findById(reviewId).get()
 
         review.isWrittenBy(user)

@@ -77,5 +77,26 @@ class Review(
                 id = 0
             )
         }
+
+        fun fixture(
+            content: String = "맛있어요",
+            mainRating: Int = 5,
+            amountRating: Int = 5,
+            tasteRating: Int = 5,
+            user: User,
+            menu: Menu,
+            imageUrl: List<String> = mutableListOf()
+        ): Review {
+            return Review(
+                content = content,
+                mainRating = mainRating,
+                amountRating = amountRating,
+                tasteRating = tasteRating,
+                user = user,
+                menu = menu,
+                imageUrls = imageUrl,
+                id = 0
+            )
+        }
     }
 }
