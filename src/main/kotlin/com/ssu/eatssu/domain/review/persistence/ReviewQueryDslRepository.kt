@@ -3,6 +3,9 @@ package com.ssu.eatssu.domain.review.persistence
 import com.querydsl.core.Tuple
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.ssu.eatssu.domain.meal.entity.Meal
+import com.ssu.eatssu.domain.meal.entity.QMeal.meal
+import com.ssu.eatssu.domain.meal.entity.QMealMenu.mealMenu
+import com.ssu.eatssu.domain.menu.entity.QMenu.menu
 import com.ssu.eatssu.domain.review.entity.QReview.review
 import com.ssu.eatssu.domain.review.entity.Review
 import org.springframework.data.domain.Pageable
@@ -54,35 +57,67 @@ class ReviewQueryDslRepository(
     }
 
     fun findAverageMainRatingByMeal(mealId: Long): Double? {
+        // mealId를 통해 meal에 속한 모든 메뉴의 ID를 가져옵니다.
+        val menuIds = queryFactory
+            .select(menu.id)
+            .from(mealMenu)
+            .join(mealMenu.menu, menu)
+            .where(mealMenu.meal.id.eq(mealId))
+            .fetch()
+
+        // 메뉴 ID가 존재할 경우 리뷰의 amountRating 평균을 계산하여 반환합니다.
+        return menuIds.takeIf { it.isNotEmpty() }?.let {
+            queryFactory
+                .select(review.mainRating.avg())
+                .from(review)
+                .where(review.menu.id.`in`(menuIds))
+                .fetchOne()
+        }
+    }
+
+    private fun findAllMenuIdsByMealId(mealId: Long): List<Long> {
         return queryFactory
-            .select(review.mainRating.avg())
-            .from(review)
-            // TODO: 쿼리 날아가는거 보고 meal에서 menu 리스트를 조회하고 각각을 조회하는 것으로 성능 개선을 꾀할 수 있음
-            .where(review.menu.meal.id.eq(mealId))
-            .fetchOne()
+            .select(menu.id)
+            .from(mealMenu)
+            .join(mealMenu.menu, menu)
+            .where(mealMenu.meal.id.eq(mealId))
+            .fetch()
     }
 
     fun findAverageAmountRatingByMeal(mealId: Long): Double? {
-        return queryFactory
-            .select(review.amountRating.avg())
-            .from(review)
-            .where(review.menu.meal.id.eq(mealId))
-            .fetchOne()
+        // mealId를 통해 meal에 속한 모든 메뉴의 ID를 가져옵니다.
+        val menuIds = findAllMenuIdsByMealId(mealId)
+
+        // 메뉴 ID가 존재할 경우 리뷰의 amountRating 평균을 계산하여 반환합니다.
+        return menuIds.takeIf { it.isNotEmpty() }?.let {
+            queryFactory
+                .select(review.amountRating.avg())
+                .from(review)
+                .where(review.menu.id.`in`(menuIds))
+                .fetchOne()
+        }
     }
 
     fun findAverageTasteRatingByMeal(mealId: Long): Double? {
-        return queryFactory
-            .select(review.tasteRating.avg())
-            .from(review)
-            .where(review.menu.meal.id.eq(mealId))
-            .fetchOne()
+        // mealId를 통해 meal에 속한 모든 메뉴의 ID를 가져옵니다.
+        val menuIds = findAllMenuIdsByMealId(mealId)
+
+        // 메뉴 ID가 존재할 경우 리뷰의 amountRating 평균을 계산하여 반환합니다.
+        return menuIds.takeIf { it.isNotEmpty() }?.let {
+            queryFactory
+                .select(review.tasteRating.avg())
+                .from(review)
+                .where(review.menu.id.`in`(menuIds))
+                .fetchOne()
+        }
+
     }
 
     fun findRatingCountMapByMeal(mealId: Long): Map<Int, Long?> {
         val results: List<Tuple> = queryFactory
             .select(review.mainRating, review.mainRating.count())
             .from(review)
-            .where(review.menu.meal.id.eq(mealId))
+            .where(review.menu.id.eq(mealId))
             .groupBy(review.mainRating)
             .fetch()
 
@@ -120,11 +155,11 @@ class ReviewQueryDslRepository(
     }
 
     fun findAllByMealId(meal: Meal, pageable: Pageable, lastReviewId: Long?, desc: Boolean): Slice<Review> {
-        val menus = meal.menus.map { it }.toList()
+        val menuIds = findAllMenuIdsByMealId(meal.id!!)
 
         val reviews = queryFactory.selectFrom(review)
             .where(
-                review.menu.`in`(menus),
+                review.menu.id.`in`(menuIds),
                 review.id.lt(lastReviewId ?: Long.MAX_VALUE)
             )
             .orderBy(
