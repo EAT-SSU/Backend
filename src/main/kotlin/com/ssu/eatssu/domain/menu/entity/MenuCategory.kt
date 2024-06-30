@@ -17,7 +17,8 @@ enum class MenuCategory(
     EXTRA("기타"),
     DRINK("음료"),
     RICE("밥"),
-    CHICKEN("치킨");
+    CHICKEN("치킨"),
+    NONE("미정");
 
     companion object {
         fun from(categoryName: String): MenuCategory {

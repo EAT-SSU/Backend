@@ -17,7 +17,7 @@ data class GetMealsResponse(
 
 data class MealDetailResponse(
     val mealId: Long,
-    val price: Int,
+    val price: Int?,
     val rating: Double? = 0.0,
     val menus: List<MenuIdNameResponse>
 ) {
@@ -25,9 +25,9 @@ data class MealDetailResponse(
         fun of(meal: Meal): MealDetailResponse {
             return MealDetailResponse(
                 mealId = meal.id!!,
-                price = meal.price!!,
+                price = meal.price,
                 rating = meal.rating,
-                menus = meal.mealMenus.map { MenuIdNameResponse.of(it.menu) }
+                menus = meal.mealMenus.mapNotNull { MenuIdNameResponse.of(it.menu) }
             )
         }
     }
@@ -38,8 +38,8 @@ data class MenuIdNameResponse(
     val menuName: String
 ) {
     companion object {
-        fun of(menu: Menu): MenuIdNameResponse {
-            return MenuIdNameResponse(menu.id!!, menu.name)
+        fun of(menu: Menu?): MenuIdNameResponse? {
+            return menu?.let { MenuIdNameResponse(it.id!!, it.name) }
         }
     }
 }

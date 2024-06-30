@@ -5,5 +5,6 @@ enum class MenuStatus(
 ) {
     AVAILABLE("판매중"),
     DISCONTINUED("단종"),
+    NONE("미정"),
     SOLD_OUT("품절")
 }

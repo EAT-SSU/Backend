@@ -4,6 +4,7 @@ import com.ssu.eatssu.domain.meal.persistence.MealQueryDslRepository
 import com.ssu.eatssu.domain.meal.presentation.dto.GetMealsRequest
 import com.ssu.eatssu.domain.meal.presentation.dto.GetMealsResponse
 import com.ssu.eatssu.domain.meal.presentation.dto.MenusInMealResponse
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class MealQueryService(
     val mealQueryDslRepository: MealQueryDslRepository
 ) {
+    @Cacheable(value = ["meals"], key = "#request.date.toString() + #request.restaurant.name() + #request.timePart.name()")
     fun getMeals(request: GetMealsRequest): GetMealsResponse {
         val meals = mealQueryDslRepository.find(
             date = request.date,

@@ -1,16 +1,19 @@
 package com.ssu.eatssu.domain.meal.presentation
 
 import com.ssu.eatssu.domain.meal.entity.Meal
+import com.ssu.eatssu.domain.meal.entity.TimePart
 import com.ssu.eatssu.domain.meal.presentation.dto.CreateMealRequest
 import com.ssu.eatssu.domain.meal.presentation.dto.GetMealsRequest
 import com.ssu.eatssu.domain.meal.presentation.dto.GetMealsResponse
 import com.ssu.eatssu.domain.meal.presentation.dto.MenusInMealResponse
+import com.ssu.eatssu.domain.restaurant.entity.Restaurant
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestBody
+import java.util.*
 
 @Tag(name = "Meal", description = "식단 API")
 interface MealControllerDocs {
@@ -35,7 +38,9 @@ interface MealControllerDocs {
         )]
     )
     fun getMeals(
-        @RequestBody getMealsRequest: GetMealsRequest
+        date: Date,
+        restaurant: Restaurant,
+        timePart: TimePart
     ): ResponseEntity<GetMealsResponse>
 
     @Operation(

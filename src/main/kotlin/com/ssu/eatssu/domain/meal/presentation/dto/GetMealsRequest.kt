@@ -18,11 +18,11 @@ data class GetMealsRequest(
         @JsonCreator
         fun from(
             @JsonProperty("date") date: String,
-            @JsonProperty("restaurantName") restaurantName: String,
+            @JsonProperty("restaurant") restaurant: String,
             @JsonProperty("timePart") timePart: String,
         ): GetMealsRequest {
-            val formattedDate = SimpleDateFormat("yyyyMMdd").parse(date)
-            val restaurant = Restaurant.from(restaurantName)
+            val formattedDate = SimpleDateFormat("yyyy-MM-dd").parse(date)
+            val restaurant = Restaurant.from(restaurant)
             val timePartEnum = TimePart.from(timePart)
 
             require(restaurant.isMealRestaurant()) {

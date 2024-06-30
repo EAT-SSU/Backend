@@ -8,7 +8,7 @@ data class MenusInMealResponse(
     companion object {
         fun from(meal: Meal): MenusInMealResponse {
             return MenusInMealResponse(
-                menus = meal.mealMenus.map { MenuIdNameResponse.of(it.menu) }
+                menus = meal.mealMenus.mapNotNull { MenuIdNameResponse.of(it.menu) }
             )
         }
     }
